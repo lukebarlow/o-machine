@@ -51,14 +51,11 @@ define (require) ->
     cameraViewAngle = 2 * Math.atan(2.1 * Math.sqrt(2)  / 14)
 
     cameras = [
-        #new Camera([-10, 5 / r2], [0,0], cameraViewAngle),
         new Camera([-cameraDistance / r2, cameraDistance / r2], [0,0], cameraViewAngle),
         new Camera([cameraDistance / r2, cameraDistance / r2], [0,0], cameraViewAngle),
         new Camera([cameraDistance / r2, -cameraDistance / r2], [0,0], cameraViewAngle),
         new Camera([-cameraDistance / r2, -cameraDistance / r2], [0,0], cameraViewAngle)
     ]
-
-    window.cameras = cameras
 
     return {
         surfaces : surfaces,

@@ -28,3 +28,11 @@ define (require) ->
             dx = px - this.position[0]
             dy = py - this.position[1]
             this.facingAngle = halfCirclePlusMinus(Math.atan2(dx, dy), (2 * Math.PI))
+
+
+        setUniformProjection: (lightLevel) ->
+            this.mappings.setUniformProjection(lightLevel)
+
+
+        castLight: ->
+            this.mappings.castLight()

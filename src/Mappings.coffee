@@ -79,3 +79,13 @@ define (require) ->
                 b = b.angularDomain[0]
                 return a - b
 
+
+        setUniformProjection: (lightLevel) ->
+            for mapping in this.mappings
+                mapping.lightLevel = lightLevel
+
+
+        castLight: ->
+            for mapping in this.mappings
+                mapping.surface.illumination += (mapping.lightLevel or 0)
+

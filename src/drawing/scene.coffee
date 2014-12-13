@@ -10,8 +10,8 @@ define (require) ->
 
             svg = d3.select(this)
 
-            x = d3.scale.linear().domain([-12,12]).range([0,700])
-            y = d3.scale.linear().domain([-12,12]).range([700,0])
+            x = d3.scale.linear().domain([-14,14]).range([0,700])
+            y = d3.scale.linear().domain([-14,14]).range([700,0])
 
             # draw the surfaces
             svg.selectAll('line.surface')

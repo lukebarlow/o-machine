@@ -22,3 +22,6 @@ rect {
     stroke:black;
 }
 
+svg.view {
+    padding-top:10px;
+}

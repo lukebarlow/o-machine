@@ -94,7 +94,6 @@ define (require) ->
             parent.call(drag)
 
 
-
         camera.x = (_x) ->
             if not arguments.length then return x
             x = _x
