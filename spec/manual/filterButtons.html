@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>Sales Options</title>
+    <link rel="stylesheet" href="../../sales.css" />
+    <script type="text/javascript" src="../../lib/require.js"></script>
+    <script type="text/javascript" src="requireConfig.js"></script>
+    <script>
+
+
+fields = [
+    ['original_source','source'],
+    ['site_account','account'],
+    ['product_type', 'product type']
+]
+
+
+values = {
+    'original_source' : ['VI','PI','Distributor'],
+    'site_account' : ['US Account','German Account','French Account'],
+    'product_type' : ['Book','DVD','Toy','Gardening']
+}
+
+require(['cs!filterButtons','d3'], function(FilterButtons, d3){
+    filterButtons = new FilterButtons()
+        .options(fields)
+        .filter({'product type' : 'Book'})
+        .draw(d3.select('#filterButtons'))
+        .on('select', function(option){
+
+            console.log('option', option)
+
+            d3.select('#values')
+                .html('')
+                .selectAll('div')
+                .data(values[option] || [])
+                .enter()
+                .append('div')
+                .attr('class','value')
+                .html(function(d){return d})
+                .on('click', function(value){
+                    filterButtons.addFilter(option, value)
+                })
+        })
+
+})
+    </script>
+    <style>
+        body {
+            margin:30px;
+        }
+
+        #values {
+            margin-top:20px;
+            margin-left:20px;
+        }
+
+        .value {
+            cursor:pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+        <b>Test Checklist</b><br />
+        <ul>
+            <li>The filter buttons allow you to see at a glance how you
+                have filtered the sales information</li>
+
+        </ul>
+    </div>
+    
+    <div id="filterButtons"></div>
+    <div id="values"></div>
+</body>
+</html>

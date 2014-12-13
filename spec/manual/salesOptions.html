@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>Sales Options</title>
+    <link rel="stylesheet" href="../../sales.css" />
+    <script type="text/javascript" src="../../lib/require.js"></script>
+    <script type="text/javascript" src="requireConfig.js"></script>
+    <script>
+
+fields = [
+    [ null, 'no split'],
+    //['year'],
+    ['original_source','source'],
+    ['site_account','account'],
+    ['product_type', 'product type']
+]
+
+
+values = {
+    'source_type' : ['VI','PI', 'Distributor'],
+    'original_source' : ['VI','PI','Ingram','Gardners','Baker & Taylor'],
+    'site_account' : ['US Account','German Account','French Account'],
+    'product_category' : ['Book','Other Media','Non Media'],
+    'product_type' : ['Book','DVD','Toy','Gardening']
+}
+
+
+require(['cs!salesOptions','cs!history','d3'], function(SalesOptions, history, d3){
+    salesOptions = new SalesOptions()
+    salesOptions.draw(d3.select('#options'))
+
+    salesOptions.on('splitByChange', function(){
+        splitBy = salesOptions.splitBy
+        d3.select('#values')
+            .html('')
+            .selectAll('div')
+            .data(values[splitBy] || [])
+            .enter()
+            .append('div')
+            .attr('class','value')
+            .html(function(d){return d})
+            .on('click', function(value){
+                salesOptions.addFilter(splitBy, value)
+            })
+    })
+
+    // interval = history('i')
+
+    // salesOptions.on('intervalChange', function(){
+    //     interval.set(salesOptions.interval)
+    // })
+
+    // interval.on('change', function(value){
+    //     console.log('interval changed to', value, interval.get())
+    // })
+
+    //window.interval = interval
+
+
+})
+
+    </script>
+    <style>
+        body {
+            margin:30px;
+        }
+
+        #values {
+            margin-top:20px;
+            margin-left:20px;
+        }
+
+        .value {
+            cursor:pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+        <b>Test Checklist</b><br />
+        <ul>
+            <li><input type="checkbox">There are a number of options relating to how you can see sales
+            information</li>
+            <li><input type="checkbox">If you choose a set of options, then reload the page, the same
+                options stay selected</li>
+            <li><input type="checkbox">If you choose an option, then click the browser back button, it
+                will go back to how they were before</li>
+            <li><input type="checkbox">If you choose a 'split by' option, then select a specific one in the
+                list below, then that option will be shown in a darker shade in the split by buttons, and you'll
+                then be able to split by something else.</li>
+
+
+
+        </ul>
+    </div>
+    
+    <div id="options"></div>
+    <div id="feedback" style="position:relative;top:200px"></div>
+    <div id="values"></div>
+</body>
+</html>

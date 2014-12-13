@@ -1,0 +1,9 @@
+angles are as the face of the clock, in radians and degrees
+
++ change the surfaces to have a light map and id
++
+
+the full 3d version can probably use this
+
+http://madebyevan.com/webgl-path-tracing/
+

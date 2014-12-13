@@ -1,0 +1,24 @@
+body {
+    background-color:#777;
+    margin:0px;
+    padding:0px;
+}
+
+line {
+    stroke:white;
+}
+
+.camera {
+    opacity: 0.5;
+    cursor:pointer;
+}
+
+.camera line {
+    stroke:black;
+}
+
+rect {
+    fill:rgba(0,0,0,0.4);
+    stroke:black;
+}
+
