@@ -8,14 +8,12 @@ define (require) ->
     for camera in scene.cameras
       camera.calculateMapping(scene.surfaces)
 
-
-
     updateLighting = ->
 
-        scene.cameras[0].setUniformProjection(0.5)
         scene.cameras[1].setUniformProjection(0.5)
         scene.cameras[2].setUniformProjection(0.5)
         scene.cameras[3].setUniformProjection(0.5)
+        scene.cameras[4].setUniformProjection(0.5)
 
         for surface in scene.surfaces
             surface.illumination = 0

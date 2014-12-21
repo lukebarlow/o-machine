@@ -3,7 +3,7 @@ define (require) ->
     #ViewComponent = require('cs!drawing/view')
 
     width = 300
-    height = 160
+    height = 120
 
     x = d3.scale.linear().domain([0,1]).range([0, width])
 

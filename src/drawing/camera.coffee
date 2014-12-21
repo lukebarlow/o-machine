@@ -22,16 +22,26 @@ define (require) ->
 
             rotate = -> "rotate(#{radiansToDegrees(c.facingAngle)})"
 
+            visibleViewLines = ->
+                return c.viewLines.filter (line) ->
+                    return line.angle > (0 - c.viewAngle / 2) and line.angle < (c.viewAngle / 2)
+
             parent = d3.select(this)
             parent.attr('transform', translate)
 
             g = parent.append('g').attr('transform', rotate)
 
-            g.append('rect')
-                .attr('x', -10)
-                .attr('y', -15)
-                .attr('width', 20)
-                .attr('height', 30)
+            if c.drawWithCircle
+
+                g.append('circle').attr('r', 15)
+
+            else
+
+                g.append('rect')
+                    .attr('x', -10)
+                    .attr('y', -15)
+                    .attr('width', 20)
+                    .attr('height', 30)
 
             g.append('line')
                 .attr('x1', 0)
@@ -46,7 +56,7 @@ define (require) ->
                 .attr('y2', 0 - Math.cos(c.viewAngle / 2) * pixelViewLineLength)
 
             g.selectAll('line.viewLine')
-                .data(c.viewLines)
+                .data(visibleViewLines())
                 .enter()
                 .append('line')
                 .attr('class','viewLine')
@@ -70,7 +80,7 @@ define (require) ->
 
                 c.calculateMapping()
 
-                s = g.selectAll('line.viewLine').data(c.viewLines)
+                s = g.selectAll('line.viewLine').data(visibleViewLines())
 
                 s.attr('stroke','white')
                     .attr('x2', (d) -> 0 + Math.sin(d.angle) * pixelLength(d.length))
