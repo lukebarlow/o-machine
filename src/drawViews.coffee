@@ -21,12 +21,57 @@ define (require) ->
 
         views.each (camera) ->
             svg = d3.select(this)
-            svg.selectAll('rect')
+            
+                #.style('fill', (m) ->  colour(m.surface.illumination))
+
+            svg.selectAll('rect.surfaceBackground')
                 .data(camera.mappings.mappings)
                 .enter()
                 .append('rect')
+                .attr('class', 'surfaceBackground')
                 .attr('x', (m) -> x(m.screenDomain[0]))
                 .attr('width', (m) -> x(m.screenDomain[1]) - x(m.screenDomain[0]))
                 .attr('y', 0)
                 .attr('height', height)
-                .style('fill', (m) ->  colour(m.surface.illumination))
+
+            g = svg.selectAll('g.mapping')
+                .data(camera.mappings.mappings)
+                .enter()
+                .append('g')
+                .attr('class', 'mapping')
+                .attr('transform', (mapping) -> "translate(#{x(mapping.screenDomain[0])},0)")
+
+            g.each (mapping) ->
+                group = d3.select(this)
+                surfaceWidth = x(mapping.screenDomain[1]) - x(mapping.screenDomain[0])
+                mappingScale = d3.scale.linear().range([0, surfaceWidth])
+                #console.log('drawViews', mapping)
+
+                group.selectAll('rect')
+                    .data(mapping.surface.stripes.stripes())
+                    .enter()
+                    .append('rect')
+                    .attr('class', 'lightStripe')
+                    .attr('x', ([s, e, b]) -> mappingScale(s))
+                    .attr('width', ([s, e, b]) -> mappingScale(e) - mappingScale(s))
+                    .attr('y', 0)
+                    .attr('height', height)
+                    #.style('fill', ([s, e, b]) -> colour(b))
+                    .style('opacity', ([s, e, b]) -> b)
+
+            svg.selectAll('rect.surface')
+                .data(camera.mappings.mappings)
+                .enter()
+                .append('rect')
+                .attr('class', 'surface')
+                .attr('x', (m) -> x(m.screenDomain[0]))
+                .attr('width', (m) -> x(m.screenDomain[1]) - x(m.screenDomain[0]))
+                .attr('y', 0)
+                .attr('height', height)
+
+
+
+            # rect = g.selectAll('rect')
+            #     .data((mappings) -> mappings.stripes.stripes())
+            #     .enter()
+            #     .append('rect')

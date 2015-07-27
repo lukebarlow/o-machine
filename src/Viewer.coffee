@@ -7,3 +7,7 @@ define (require) ->
         drawWithCircle : true
         hasProjector : false
 
+        # viewer casts no light
+        castLight: =>
+            return
+

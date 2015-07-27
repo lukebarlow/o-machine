@@ -17,9 +17,20 @@ line {
     stroke:black;
 }
 
-rect {
-    fill:rgba(0,0,0,0.4);
-    stroke:black;
+rect.surface {
+    fill: transparent;
+    stroke: pink;
+    stroke-opacity:0.5;
+}
+
+rect.surfaceBackground {
+    fill: black;
+    stroke: black;
+}
+
+
+rect.lightStripe {
+    fill: white;
 }
 
 svg.view {

@@ -4,18 +4,28 @@ define (require) ->
     Camera = require('cs!Camera')
     d3 = require('d3')
 
+    round = (value) -> d3.round(value, 3)
+
     describe 'intersection', ->
 
         it 'calculates the line for a view line coming out of a camera', ->
-            camera = new Camera(0, 0, 0, null)
-            line = intersection.cameraViewLineToCartesianLine(camera, 0)
+            camera = new Camera([0, 0], [0, 1], null)
+            line = intersection.cameraViewLineToCartesianLine(camera, 0, length = 5)
             [p1, p2] = line
             expect(p1).toEqual([0,0])
-            expect(p2).toEqual([0,10])
+            expect(p2).toEqual([0,5])
+
+
+        it 'calculates the line at 3 o\'clock coming out of camera', ->
+            camera = new Camera([0, 0], [1, 0], null)
+            line = intersection.cameraViewLineToCartesianLine(camera, 0, length = 4)
+            [p1, p2] = line
+            expect(p1.map(round)).toEqual([0, 0])
+            expect(p2.map(round)).toEqual([4, 0])
 
 
         it 'calculates the line for a view line coming out of a camera again', ->
-            camera = new Camera(0, 0, Math.PI / 4, null)
+            camera = new Camera([0, 0], [1, 1], null)
             line = intersection.cameraViewLineToCartesianLine(camera, 0)
             [p1, p2] = line
             expect(p1).toEqual([0,0])

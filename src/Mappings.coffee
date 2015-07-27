@@ -12,7 +12,7 @@ define (require) ->
             this.camera = camera
             this.mappings = []
 
-        
+        # angular domain is relative to the way the camera is pointing
         addMapping: (angularDomain, surface) ->
             
             # by looking a the angle ranges already covered,
@@ -64,8 +64,8 @@ define (require) ->
             camera = this.camera
             for mapping in this.mappings
                 [start, end] = mapping.angularDomain
-                startIntersection = intersection.cameraViewLineSurface(this.camera, start, mapping.surface)
-                endIntersection = intersection.cameraViewLineSurface(this.camera, end, mapping.surface)
+                startIntersection = intersection.cameraViewLineSurface(camera, start, mapping.surface)
+                endIntersection = intersection.cameraViewLineSurface(camera, end, mapping.surface)
 
                 startLength = distance(startIntersection, camera.position)
                 endLength = distance(endIntersection, camera.position)
@@ -80,12 +80,25 @@ define (require) ->
                 return a - b
 
 
-        setUniformProjection: (lightLevel) ->
+        # setUniformProjection: (lightLevel) ->
+        #     for mapping in this.mappings
+        #         mapping.lightLevel = lightLevel
+
+
+        setStripedProjection: (stripes) ->
             for mapping in this.mappings
-                mapping.lightLevel = lightLevel
+                # debugger
+                mapping.stripes = stripes.slice(mapping.screenDomain)
+                # console.log(' - - - - ')
+                # console.log('mapping', mapping)
+                # console.log('stripes', mapping.stripes.stripes())
 
 
         castLight: ->
             for mapping in this.mappings
-                mapping.surface.illumination += (mapping.lightLevel or 0)
+                #console.log('mapping stripes', mapping.stripes.stripes())
+                #debugger
+                mapping.surface.stripes.addStripes(mapping.stripes)
+                #console.log('surface stripes', mapping.surface.stripes.stripes())
+                #mapping.surface.illumination += (mapping.lightLevel or 0)
 

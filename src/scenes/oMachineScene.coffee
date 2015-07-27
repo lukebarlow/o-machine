@@ -3,6 +3,7 @@ define (require) ->
     Surface = require('cs!Surface')
     Camera = require('cs!Camera')
     Viewer = require('cs!Viewer')
+    Stripes = require('cs!Stripes')
 
     pillarWidth = 0.6
 
@@ -53,11 +54,25 @@ define (require) ->
 
     cameras = [
         new Viewer([0, 10], [0,0], Math.PI / 4),
-        new Camera([-cameraDistance / r2, cameraDistance / r2], [0,0], cameraViewAngle),
-        new Camera([cameraDistance / r2, cameraDistance / r2], [0,0], cameraViewAngle),
-        new Camera([cameraDistance / r2, -cameraDistance / r2], [0,0], cameraViewAngle),
+        new Camera([-cameraDistance / r2, cameraDistance / r2], [0,0], cameraViewAngle)
+            #.stripes([[0, 0.5, 1]]),
+            .stripes([[0, 1, 0.7]]),
+            # .stripes([
+            #     [0, 0.1, 1],
+            #     [0.2, 0.3, 1],
+            #     [0.4, 0.5, 1],
+            #     [0.6, 0.7, 1],
+            #     [0.8, 0.9, 1]
+            # ])
+        new Camera([cameraDistance / r2, cameraDistance / r2], [0,0], cameraViewAngle)
+            #.stripes([[0, 0.5, 1]]),
+            .stripes([[0, 1, 0]]),
+        new Camera([cameraDistance / r2, -cameraDistance / r2], [0,0], cameraViewAngle)
+            #.stripes([[0, 0.5, 1]]),
+            .stripes([[0, 1, 0.7]]),
         new Camera([-cameraDistance / r2, -cameraDistance / r2], [0,0], cameraViewAngle)
-
+            #.stripes([[0, 0.5, 1]]),
+            .stripes([[0, 1, 0]]),
     ]
 
     return {
