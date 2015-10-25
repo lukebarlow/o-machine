@@ -5,6 +5,7 @@ define (require) ->
     Stripes = require('cs!Stripes')
     drawViews = require('cs!drawViews')
     view = require('cs!view')
+    hub = require('cs!hub')
    
     for camera in scene.cameras
       camera.calculateMapping(scene.surfaces)
@@ -24,6 +25,10 @@ define (require) ->
     d3.select('svg#scene').datum(scene).each(sceneComponent)
 
     sceneComponent.on 'cameraChange', ->
+        updateLighting()
+        drawViews(d3.select('#views').html(''), scene)
+
+    hub.on 'cameraChange', ->
         updateLighting()
         drawViews(d3.select('#views').html(''), scene)
 

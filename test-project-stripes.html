@@ -1,0 +1,25 @@
+<html>
+<head>
+    <title>O-machine</title>
+    <script src="d3.min.js"></script>
+
+    <script type="text/javascript" src="lib/require.js"></script>
+    <script type="text/javascript" src="src/requireConfig.js"></script>
+    <link rel="stylesheet" href="o-machine.css" />
+    <script>
+        require(['cs!test-project-stripesUi'])
+    </script>
+
+
+</head>
+<body>
+
+<svg width="400" height="400" style="border:1pt solid black;float:left" id="scene"></svg>
+
+<div id="projection" class="label">PROJECTION</div>
+<div id="seen" class="label">SEEN</div>
+<div id="views"></div>
+
+
+</body>
+</html>

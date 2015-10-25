@@ -7,13 +7,19 @@ define (require) ->
 
     class Camera
 
-        constructor: (position, pointsAt, viewAngle) ->
+        hasProjector: true
+
+
+        constructor: (position, pointsAt, viewAngle, name) ->
             this.position = position
             this.pointsAt = pointsAt
             this.calculateFacingAngle()
             this.viewAngle = viewAngle
             this.viewLines = []
             this._stripes = null
+            this.projectorOn = true
+            this.name = name
+
 
 
         calculateMapping: (surfaces) ->
@@ -45,6 +51,8 @@ define (require) ->
 
         # shortcut for setting stripes in a less verbose way
         stripes: (stripes) =>
+            if not arguments.length
+                return this._stripes.stripes()
             this._stripes = s = new Stripes()
             for stripe in stripes
                 s.addStripe(stripe)
@@ -52,5 +60,12 @@ define (require) ->
 
 
         castLight: =>
-            this.mappings.setStripedProjection(this._stripes)
+            if this.projectorOn
+                this.mappings.setStripedProjection(this._stripes)
+            else
+                # else just set to null stripes
+                this.mappings.setStripedProjection(new Stripes())
+                #debugger
             this.mappings.castLight()
+
+

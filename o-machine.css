@@ -2,6 +2,28 @@ body {
     background-color:#777;
     margin:0px;
     padding:0px;
+    font-family: sans-serif;
+}
+
+#views {
+    position:absolute;
+    left:450px;
+    top:40px
+}
+
+.label {
+    position: absolute;
+    color: white;
+}
+
+#projection {
+    top: 15px;
+    left: 620px;
+}
+
+#seen {
+    top: 15px;
+    left: 860px;
 }
 
 line {
@@ -13,12 +35,34 @@ line {
     cursor:pointer;
 }
 
+.camera:hover {
+    opacity: 1;
+}
+
+text {
+    fill: white;
+    stroke: transparent;
+}
+
+.button {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.off {
+    opacity:0.35;
+}
+
+.button:hover {
+    opacity: 1;
+}
+
 .camera line {
     stroke:black;
 }
 
 rect.surface {
-    fill: transparent;
+    fill: black;
     stroke: pink;
     stroke-opacity:0.5;
 }
@@ -35,4 +79,13 @@ rect.lightStripe {
 
 svg.view {
     padding-top:10px;
+}
+
+.outline {
+    stroke: black;
+    fill: black;
+}
+
+.seen .outline {
+    fill: rgb(0, 0, 140);
 }

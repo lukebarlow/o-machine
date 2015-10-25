@@ -6,12 +6,16 @@ define (require) ->
 
         dispatch = d3.dispatch('cameraChange')
 
+        size = 700
+
         scene  = (d) ->
 
             svg = d3.select(this)
 
-            x = d3.scale.linear().domain([-14,14]).range([0,700])
-            y = d3.scale.linear().domain([-14,14]).range([700,0])
+            svg.style('width', size).style('height', size)
+
+            x = d3.scale.linear().domain([-14, 14]).range([0, size])
+            y = d3.scale.linear().domain([-14, 14]).range([size, 0])
 
             # draw the surfaces
             svg.selectAll('line.surface')
@@ -40,6 +44,12 @@ define (require) ->
 
         scene.on = (type, handler) ->
             dispatch.on(type, handler)
+            return scene
+
+
+        scene.size = (_size) ->
+            if not arguments.length then return size
+            size = _size
             return scene
 
 

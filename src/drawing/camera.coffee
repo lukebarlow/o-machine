@@ -32,16 +32,19 @@ define (require) ->
             g = parent.append('g').attr('transform', rotate)
 
             if c.drawWithCircle
-
                 g.append('circle').attr('r', 15)
 
             else
-
                 g.append('rect')
                     .attr('x', -10)
                     .attr('y', -15)
                     .attr('width', 20)
                     .attr('height', 30)
+
+            parent.append('text')
+                .attr('x', 20)
+                .attr('class', 'name')
+                .text(c.name)
 
             g.append('line')
                 .attr('x1', 0)
