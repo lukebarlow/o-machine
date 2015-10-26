@@ -38,7 +38,7 @@ define (require) ->
                 .attr('text-anchor', 'end')
                 .text(camera.name)
 
-            if camera.hasProjector
+            if camera.hasProjector()
 
                 svg.append('text')
                     .attr('x', 70)

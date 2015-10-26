@@ -2,7 +2,7 @@ define (require) ->
     ''' a global singleton object which handles application state
     and routes global events'''
 
-    dispatch = d3.dispatch('cameraChange')
+    dispatch = d3.dispatch('cameraChange', 'tick')
 
     hub = {}
 
@@ -10,8 +10,13 @@ define (require) ->
         dispatch.on(type, handler)
         return hub
 
-    hub.cameraChange = (dealer) ->
+    hub.cameraChange = () ->
         dispatch.cameraChange()
+        return hub
+
+    hub.tick = () ->
+        #console.log('t')
+        dispatch.tick()
         return hub
 
     return hub

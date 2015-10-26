@@ -5,7 +5,7 @@ define (require) ->
     class Viewer extends Camera
 
         drawWithCircle : true
-        hasProjector : false
+        _hasProjector : false
 
         # viewer casts no light
         castLight: =>

@@ -1,84 +1,28 @@
 define (require) ->
 
-    Surface = require('cs!Surface')
-    Camera = require('cs!Camera')
-    Viewer = require('cs!Viewer')
-    Stripes = require('cs!Stripes')
+    surfaces = require('cs!scenes/oMachineSurfaces')
+    cameras = require('cs!scenes/oMachineCamerasAndViewer')
 
-    pillarWidth = 0.6
+    # some test stripes
 
-    ###
-    The pillars are organised around the 0,0 point in the centre. The positions
-    are given in units of [width of pillar] here, and then converted into
-    metres when we calculate the positions of the surfaces
-    ###
+    cameras[1].stripes([
+        [0, 0.1, 1],
+        [0.2, 0.3, 1],
+        [0.4, 0.5, 1],
+        [0.6, 0.7, 1],
+        [0.8, 0.9, 1]
+    ])
 
-    pillars = [
-        # along the top
-        [-3.5, 2.5],
-        [-1.5, 2.5],
-        [0.5, 2.5],
-        [2.5, 2.5],
+    cameras[2].stripes([[0, 0.5, 1]])
 
-        # left hand side
-        [-3.5, 0.5],
-        [-3.5, -1.5],
+    cameras[3].stripes([[0, 0.33, 0.3], [0.66, 1, 0.4]])
 
-        # right hand side
-        [2.5, 0.5],
-        [2.5, -1.5],
-
-        # bottom
-        [-3.5, -3.5],
-        [-1.5, -3.5],
-        [0.5, -3.5],
-        [2.5, -3.5],
-    ]
-
-    surfaces = []
-    for [x, y] in pillars
-        x *= pillarWidth
-        y *= pillarWidth
-        surfaces = surfaces.concat([
-            [[x,y],[x,y + pillarWidth]],
-            [[x,y + pillarWidth], [x + pillarWidth, y + pillarWidth]],
-            [[x + pillarWidth, y + pillarWidth],[x + pillarWidth, y]],
-            [[x + pillarWidth, y], [x,y]]
-        ])
-
-    surfaces = surfaces.map(([p1, p2]) -> new Surface(p1, p2))
-
-    r2 = Math.sqrt(2)
-    cameraDistance = 14
-    cameraViewAngle = 2 * Math.atan(2.1 * Math.sqrt(2)  / 14)
-
-    cameras = [
-        new Viewer([0, 10], [0,0], Math.PI / 4, 'Viewer'),
-        new Camera([-cameraDistance / r2, cameraDistance / r2], [0,0], cameraViewAngle, 'Camera 1')
-            #.stripes([[0, 0.5, 1]]),
-            #.stripes([[0, 1, 0.7]]),
-            .stripes([
-                [0, 0.1, 1],
-                [0.2, 0.3, 1],
-                [0.4, 0.5, 1],
-                [0.6, 0.7, 1],
-                [0.8, 0.9, 1]
-            ])
-        new Camera([cameraDistance / r2, cameraDistance / r2], [0,0], cameraViewAngle, 'Camera 2')
-            .stripes([[0, 0.5, 1]]),
-            #.stripes([[0, 1, 0]]),
-        new Camera([cameraDistance / r2, -cameraDistance / r2], [0,0], cameraViewAngle, 'Camera 3')
-            .stripes([[0, 0.33, 0.3], [0.66, 1, 0.4]]),
-            #.stripes([[0, 1, 0.7]]),
-        new Camera([-cameraDistance / r2, -cameraDistance / r2], [0,0], cameraViewAngle, 'Camera 4')
-            #.stripes([[0, 0.5, 1]]),
-            .stripes([
-                [0, 0.2, 0.25],
-                [0.3, 0.5, 0.25],
-                [0.6, 0.8, 0.25],
-                [0.9, 0.1, 0.25]
-            ]),
-    ]
+    cameras[4].stripes([
+        [0, 0.2, 0.25],
+        [0.3, 0.5, 0.25],
+        [0.6, 0.8, 0.25],
+        [0.9, 0.1, 0.25]
+    ])
 
     return {
         surfaces : surfaces,
