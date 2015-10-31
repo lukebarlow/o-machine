@@ -11,6 +11,14 @@ body {
     top:40px
 }
 
+
+/*#views > :first-child .seen {
+    transform: scale(2);
+    position: relative;
+    left: -200px;
+    top: 100px;
+}*/
+
 .label {
     position: absolute;
     color: white;
@@ -63,7 +71,7 @@ text {
 
 rect.surface {
     fill: black;
-    stroke: pink;
+    stroke: transparent;
     stroke-opacity:0.5;
 }
 

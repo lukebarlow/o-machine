@@ -7,12 +7,17 @@ define (require) ->
     hub = require('cs!hub')
     #ViewComponent = require('cs!drawing/view')
 
+    distance = require('cs!distance')
+
     width = 200
     height = 120
 
     x = d3.scale.linear().domain([0,1]).range([0, width])#.clamp(true)
 
     colour = d3.scale.linear().domain([0,2]).range(['#000000','#ffffff'])
+
+    surfaceDistance = (camera, surface) ->
+        return distance(camera.position, surface.midpoint)
 
     return (div, scene) ->
 
@@ -29,6 +34,14 @@ define (require) ->
         projectionScale = d3.scale.linear().range([0, width])
 
         views.each (camera, i) ->
+
+            # if i == 0
+            #     width = 400
+            #     height = 240
+            # else
+            #     width = 150
+            #     height = 90
+
             svg = d3.select(this)
             
             svg.append('text')
@@ -112,6 +125,16 @@ define (require) ->
             contents = gSeen.append('g')
                 .style('clip-path', 'url(#' + id + ')')
 
+            calculateHeight = (m) ->
+                d = surfaceDistance(camera, m.surface)
+                #console.log(d)
+                return height * 8 / d
+
+            calculateY = (m) ->
+                h = calculateHeight(m)
+                return (height - h) / 2
+
+
             contents.selectAll('rect.surfaceBackground')
                 .data(camera.mappings.mappings)
                 .enter()
@@ -119,8 +142,8 @@ define (require) ->
                 .attr('class', 'surfaceBackground')
                 .attr('x', (m) -> x(m.screenDomain[0]))
                 .attr('width', (m) -> x(m.screenDomain[1]) - x(m.screenDomain[0]))
-                .attr('y', 0)
-                .attr('height', height)
+                .attr('y', calculateY)
+                .attr('height', calculateHeight)
 
             contents.selectAll('rect.surface')
                 .data(camera.mappings.mappings)
@@ -129,8 +152,8 @@ define (require) ->
                 .attr('class', 'surface')
                 .attr('x', (m) -> x(m.screenDomain[0]))
                 .attr('width', (m) -> x(m.screenDomain[1]) - x(m.screenDomain[0]))
-                .attr('y', 0)
-                .attr('height', height)
+                .attr('y', calculateY)
+                .attr('height', calculateHeight)
 
             g = contents.selectAll('g.mapping')
                 .data(camera.mappings.mappings)
@@ -155,8 +178,8 @@ define (require) ->
                     .attr('class', 'lightStripe')
                     .attr('x', ([s, e, b]) -> mappingScale(s))
                     .attr('width', ([s, e, b]) -> mappingScale(e) - mappingScale(s))
-                    .attr('y', 0)
-                    .attr('height', height)
+                    .attr('y', calculateY(mapping))
+                    .attr('height', calculateHeight(mapping))
                     .style('opacity', ([s, e, b]) -> b)
 
             

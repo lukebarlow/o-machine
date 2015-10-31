@@ -24,10 +24,9 @@ define (require) ->
                 [0.6, 0.7, 0.2],
                 [0.8, 0.9, 0.2]
             ]),
-
         new Camera([-5, -10], [0,0], cameraViewAngle, 'Camera 2')
             .stripes([
-                [0, 0.5, 0.5]
+                [0, 1, 1]
             ])
         #new Viewer([-12, -10], [0, 0], cameraViewAngle)
     ]
@@ -50,6 +49,8 @@ define (require) ->
         for camera in scene.cameras
             camera.castLight()
 
+        cameras[0].lightLevelSeen()
+
     updateLighting()
 
     sceneComponent = SceneComponent().size(400)
@@ -66,4 +67,9 @@ define (require) ->
         drawViews(d3.select('#views').html(''), scene)
 
     drawViews(d3.select('#views'), scene)
+
+
+    d3.select('#whatDoYouSee').on 'click', =>
+        cameras[0].lightLevelSeen()
+    
 

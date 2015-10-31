@@ -93,7 +93,20 @@ define (require) ->
                 wave.position - wave.thickness <= 0.5
 
 
-        startWave: (speed = 0.1, thickness = 0.05, brightness = 0.3) =>
+        lightLevelSeen: =>
+            total = 0
+            # iterate through the mappings to surfaces seen
+            for m in this.mappings.mappings
+                screenWidth = m.screenDomain[1] - m.screenDomain[0]
+                t = d3.sum m.surface.stripes.stripes(), ([s, e, b]) =>
+                    (e - s) * Math.min(b, 1)
+                total += t * screenWidth
+            return total
+
+
+        startWave: (speed = 0.02, thickness = 0.05, brightness = 0.3) =>
+            if this.waveSpeed
+                speed = this.waveSpeed
             this._waves.push({
                 position: 0,
                 speed: speed,
