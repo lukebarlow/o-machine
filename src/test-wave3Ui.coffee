@@ -67,7 +67,7 @@ define (require) ->
                 if b < 0.5# and Math.random() > 0.95
                     #console.log('b', b)
                     if b < 0.2
-                        camera.startWave(null, thickness = Math.random() * 0.5 + 0.2, brightness = 0.85)
+                        camera.startWave(null, thickness = 0.1, brightness = 0.3)
                     else if b < 0.46
                         camera.startWave(null, thickness = 0.3, brightness = 0.02)
                     else
