@@ -28,10 +28,10 @@ define (require) ->
     for camera in cameras.slice(1)
         camera.useWaves(true)
 
-    cameras[1].waveSpeed = 0.026
-    cameras[2].waveSpeed = 0.028
+    cameras[1].waveSpeed = 0.025
+    cameras[2].waveSpeed = 0.025
     cameras[3].waveSpeed = 0.025
-    cameras[4].waveSpeed = 0.024
+    cameras[4].waveSpeed = 0.025
 
     scene = {
         surfaces : surfaces,
@@ -71,7 +71,7 @@ define (require) ->
                     else if b < 0.46
                         camera.startWave(null, thickness = 0.3, brightness = 0.02)
                     else
-                        camera.startWave(null, thickness = 0.05, brightness = 1)
+                        camera.startWave(null, thickness = 0.04, brightness = 1)
                     camera.lastWave = new Date()
 
 
