@@ -61,12 +61,9 @@ define (require) ->
             if this.projectorOn
                 s = if this._useWaves then this._wavesAsStripes() else this._stripes
                 this.mappings.setStripedProjection(s)
-                #console.log('------------------')
-                #console.log(JSON.stringify(s.stripes()))
             else
                 # else just set to null stripes
                 this.mappings.setStripedProjection(new Stripes())
-                #debugger
             this.mappings.castLight()
 
 
@@ -75,8 +72,8 @@ define (require) ->
             for wave in this._waves
                 inner = Math.min(Math.max(0, wave.position - wave.thickness), 0.5)
                 outer = Math.min(0.5, wave.position)
-                s.addStripe([0.5 + inner, 0.5 + outer, wave.brightness])
-                s.addStripe([0.5 - outer, 0.5 - inner, wave.brightness])
+                s.addStripe([0.5 + inner, 0.5 + outer, wave.brightness, wave.colour])
+                s.addStripe([0.5 - outer, 0.5 - inner, wave.brightness, wave.colour])
             return s
 
 
@@ -104,15 +101,18 @@ define (require) ->
             return total
 
 
-        startWave: (speed = 0.02, thickness = 0.05, brightness = 0.3) =>
+        startWave: (speed = 0.02, thickness = 0.05, brightness = 0.3, colour = [255, 255, 255]) =>
             if this.waveSpeed
                 speed = this.waveSpeed
+            # if this.colour
+            #     colour = this.colour
             this._waves.push({
                 position: 0,
                 speed: speed,
                 thickness: thickness,
                 brightness: brightness,
-                startTime: new Date()
+                startTime: new Date(),
+                colour: colour
             })
 
 

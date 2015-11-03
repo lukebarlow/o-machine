@@ -28,6 +28,32 @@ define (require) ->
 
 
     ###
+
+    addColours = (c1, a1, c2, a2) =>
+        # c1 is on top of c2
+        [r1, g1, b1] = c1 or [255, 255, 255]
+        [r2, g2, b2] = c2 or [255, 255, 255]
+
+        a = a1 + a2 * (1 - a1)
+        # r = (r1 * a1 + r2 * a2 * (1 - a1)) / a
+        # g = (g1 * a1 + g2 * a2 * (1 - a1)) / a
+        # b = (b1 * a1 + b2 * a2 * (1 - a1)) / a
+
+        r = r1 * a1 + r2 * a2
+        g = g1 * a1 + g2 * a2
+        b = b1 * a1 + b2 * a2
+
+        # console.log('adding colours -----')
+        # console.log(c1)
+        # console.log(c2)
+        # console.log([r, g, b])
+
+        return [[r, g, b], a]
+
+
+    window.addColours = addColours
+
+
     class Stripes
 
 
@@ -64,11 +90,13 @@ define (require) ->
             result = []
             previous = 0
             for line in lines.slice(1)
-                b = 0
-                for [start, end, brightness] in this._stripes
+                totalBrightness = 0
+                totalColour = [0, 0, 0]
+                for [start, end, brightness, colour] in this._stripes
                     if (start <= previous) and (end >= line)
-                        b += brightness
-                result.push([previous, line, b])
+                        [totalColour, totalBrightness] = addColours(colour, brightness, totalColour, totalBrightness)
+
+                result.push([previous, line, totalBrightness, totalColour])
                 previous = line
 
             this._stripes = result
@@ -81,16 +109,16 @@ define (require) ->
             result = new Stripes()
             # scale s converts from the slice domain to the new [0, 1] domain
             s = d3.scale.linear().domain(domain).range([0,1])
-            for [start, end, brightness] in this._stripes
+            for [start, end, brightness, colour] in this._stripes
                 switch overlap([start, end], domain)
                     when 'inside'
-                        result.addStripe([s(start), s(end), brightness])
+                        result.addStripe([s(start), s(end), brightness, colour])
                     when 'contains'
-                        result.addStripe([0, 1, brightness])
+                        result.addStripe([0, 1, brightness, colour])
                     when 'overlap left'
-                        result.addStripe([0, s(end), brightness])
+                        result.addStripe([0, s(end), brightness, colour])
                     when 'overlap right'
-                        result.addStripe([s(start), 1, brightness])
+                        result.addStripe([s(start), 1, brightness, colour])
             return result
 
 

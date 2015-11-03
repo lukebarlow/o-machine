@@ -80,25 +80,12 @@ define (require) ->
                 return a - b
 
 
-        # setUniformProjection: (lightLevel) ->
-        #     for mapping in this.mappings
-        #         mapping.lightLevel = lightLevel
-
-
         setStripedProjection: (stripes) ->
             for mapping in this.mappings
-                # debugger
                 mapping.stripes = stripes.slice(mapping.screenDomain)
-                # console.log(' - - - - ')
-                # console.log('mapping', mapping)
-                # console.log('stripes', mapping.stripes.stripes())
 
 
         castLight: ->
             for mapping in this.mappings
-                #console.log('mapping stripes', mapping.stripes.stripes())
-                #debugger
                 mapping.surface.stripes.addStripes(mapping.stripes)
-                #console.log('surface stripes', mapping.surface.stripes.stripes())
-                #mapping.surface.illumination += (mapping.lightLevel or 0)
 

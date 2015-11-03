@@ -12,9 +12,14 @@ define (require) ->
         camera.useWaves(true)
 
     cameras[1].waveSpeed = 0.025
-    cameras[2].waveSpeed = 0.025
+    cameras[2].waveSpeed = 0.026
     cameras[3].waveSpeed = 0.025
     cameras[4].waveSpeed = 0.025
+
+    # cameras[1].colour = [255, 0, 0]
+    # cameras[2].colour = [0, 255, 0]
+    # cameras[3].colour = [0, 0, 255]
+    # cameras[4].colour = [255, 255, 0]
 
     scene = {
         surfaces : surfaces,
@@ -45,19 +50,20 @@ define (require) ->
 
         for camera in cameras.slice(1)
             delay = new Date() - (camera.lastWave or 0)
-            if delay > 2000
+            if delay > 3000
+                camera.lastWave = new Date()
                 b = camera.lightLevelSeen()
                 # if b < 0.25
                 #     camera.startWave(null, thickness = 0.04 + Math.random() * 0.02, brightness = b + 0.5)
                 # else
                 #     camera.startWave(null, thickness = 0.04 + Math.random() * 0.02, brightness = 1 - b)
-                if b < 0.2
-                    camera.startWave(null, thickness = 0.1 + Math.random() * 0.03, brightness = 0.7)
-                else if b < 0.48
-                    camera.startWave(null, thickness = 0.3, brightness = 0.02)
+                if b < 0.26
+                    camera.startWave(null, thickness = 0.2 + Math.random() * 0.03, brightness = 1, colour = [0, 0, 150])
+                else if b < 0.4
+                    camera.startWave(null, thickness = 0.05, brightness = 0.2, colour = [255, 255, 255])
                 else
-                    camera.startWave(null, thickness = 0.04, brightness = 1)
-                camera.lastWave = new Date()
+                    camera.startWave(null, thickness = 0.02, brightness = 1, colour = [255, 0, 0])
+                
 
 
 

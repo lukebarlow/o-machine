@@ -84,9 +84,11 @@ define (require) ->
                     .attr('width', width + 2)
                     .attr('height', height + 2)
 
+                s = camera.stripes()
+
                 # the projected stripes of light
                 gProjected.selectAll('g.lightStripe')
-                    .data(camera.stripes())
+                    .data(s)
                     .enter()
                     .append('rect')
                     .attr('class', 'lightStripe')
@@ -95,6 +97,9 @@ define (require) ->
                     .attr('y', 0)
                     .attr('height', height)
                     .style('opacity', ([s, e, b]) -> b)
+                    .style('fill', ([s, e, b, c]) -> 
+                        return "rgb(#{c.map(Math.round)})"
+                    )
 
 
             ### draw what is seen by the camera ###
@@ -166,11 +171,6 @@ define (require) ->
                 group = d3.select(this)
                 surfaceWidth = x(mapping.screenDomain[1]) - x(mapping.screenDomain[0])
                 mappingScale = d3.scale.linear().range([0, surfaceWidth]).clamp(true)
-                #console.log('drawViews', mapping)
-
-                #console.log('drawing mapping')
-                #console.log(mapping.surface.stripes.stripes())
-
                 group.selectAll('rect')
                     .data(mapping.surface.stripes.stripes())
                     .enter()
@@ -181,9 +181,4 @@ define (require) ->
                     .attr('y', calculateY(mapping))
                     .attr('height', calculateHeight(mapping))
                     .style('opacity', ([s, e, b]) -> b)
-
-            
-            # rect = g.selectAll('rect')
-            #     .data((mappings) -> mappings.stripes.stripes())
-            #     .enter()
-            #     .append('rect')
+                    .style('fill', ([s, e, b, c]) -> "rgb(#{c.map(Math.round)})")
