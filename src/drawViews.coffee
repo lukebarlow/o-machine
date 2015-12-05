@@ -27,13 +27,30 @@ define (require) ->
             .append('svg')
             .attr('class','view')
             .attr('width', width * 2 + 150)
-            .attr('height', height + 4)
+            .attr('height', (d) ->
+                if d.hasProjector()
+                    height + 4
+                else
+                    height * 1.5 + 4
+            )
             .append('g')
             .attr('transform', 'translate(2,2)')
 
-        projectionScale = d3.scale.linear().range([0, width])
+        
 
         views.each (camera, i) ->
+
+            if camera.hasProjector()
+                viewWidth = width
+                viewHeight = height
+                viewLeft = width + 135
+            else
+                viewWidth = width * 1.5
+                viewHeight = height * 1.5
+                viewLeft = 185
+
+            projectionScale = d3.scale.linear().range([0, viewWidth])
+            x.range([0, viewWidth])
 
             # if i == 0
             #     width = 400
@@ -113,19 +130,19 @@ define (require) ->
                 .append('clipPath')
                 .attr('id', id)
                 .append('rect')
-                .attr('width', width)
-                .attr('height', height)
+                .attr('width', viewWidth)
+                .attr('height', viewHeight)
 
             gSeen = svg.append('g')
                 .attr('class', 'seen')
-                .attr('transform', "translate(#{width+135}, 0)")
+                .attr('transform', "translate(#{viewLeft}, 0)")
                 
             gSeen.append('rect')
                 .attr('class', 'outline')
                 .attr('x', -1)
                 .attr('y', -1)
-                .attr('width', width + 2)
-                .attr('height', height + 2)
+                .attr('width', viewWidth + 2)
+                .attr('height', viewHeight + 2)
 
             contents = gSeen.append('g')
                 .style('clip-path', 'url(#' + id + ')')
@@ -133,11 +150,11 @@ define (require) ->
             calculateHeight = (m) ->
                 d = surfaceDistance(camera, m.surface)
                 #console.log(d)
-                return height * 8 / d
+                return viewHeight * 8 / d
 
             calculateY = (m) ->
                 h = calculateHeight(m)
-                return (height - h) / 2
+                return (viewHeight - h) / 2
 
 
             contents.selectAll('rect.surfaceBackground')
